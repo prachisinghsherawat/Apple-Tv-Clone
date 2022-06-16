@@ -39,7 +39,7 @@ export default function Banner() {
   return (
     <Box
       position={"relative"}
-      height={"500px"}
+      height={"650px"}
       width={"full"}
       overflow={"hidden"}
     >
@@ -86,7 +86,7 @@ export default function Banner() {
         {cards.map((card, index) => (
           <Box
             key={index}
-            height={"xl"}
+            height={"2xl"}
             position="relative"
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
