@@ -125,55 +125,74 @@ const comingSoon = [
 
 const tales = [
   {
+    id : 1,
     image:
       "https://is2-ssl.mzstatic.com/image/thumb/6tJakyTEtS0vrgdc9POZpg/738x416.webp",
+    video : Sev
   },
   {
+    id : 2,
     image:
       "https://is1-ssl.mzstatic.com/image/thumb/yXhlXOFkS9yJ1kMmOhfIbg/738x416.webp",
+    video : See  
   },
   {
+    id : 3,
     image:
       "https://is4-ssl.mzstatic.com/image/thumb/h8oGFN-jdPeHY8j3EM_WnQ/738x416.webp",
+    video : Home
   },
   {
+    id : 4,
     image:
       "https://is5-ssl.mzstatic.com/image/thumb/Cof8vC9vaCH-GYX6JltrQA/738x416.webp",
+    video : Mankind
   },
   {
+    id : 5,
     image:
       "https://is4-ssl.mzstatic.com/image/thumb/EjmCDwq97jEEe9RuKY7aNw/738x416.webp",
+    video : Fondation
+
   },
   {
+    id : 6,
     image:
       "https://is2-ssl.mzstatic.com/image/thumb/78-I7VenST4ztZYfwMf6AQ/738x416.webp",
   },
   {
+    id : 7,
     image:
       "https://is5-ssl.mzstatic.com/image/thumb/NHLksWLSZpTcIw36-n7vWA/738x416.webp",
+    video : Defending_Jacob
   },
 ];
 
 const mysteries = [
   {
+   
     image:
       "https://is2-ssl.mzstatic.com/image/thumb/dbEKo7rp5RGNNDrCbA7AUQ/738x416.webp",
   },
   {
     image:
       "https://is2-ssl.mzstatic.com/image/thumb/vB48H4eBprLJ-WdCBTA6cw/738x416.webp",
+
   },
   {
     image:
       "https://is1-ssl.mzstatic.com/image/thumb/mqP1mK0HzuFhIBXsd_Q_SA/738x416.webp",
+  
   },
   {
     image:
       "https://is4-ssl.mzstatic.com/image/thumb/RP47edx-hRW2rCun48Lx2w/738x416.webp",
+   
   },
   {
     image:
       "https://is2-ssl.mzstatic.com/image/thumb/FQV5QO8Xa5gbRlB8jXX9rw/738x416.webp",
+      
   },
   {
     image:
@@ -197,6 +216,8 @@ const voice = [
   {
     image:
       "https://is3-ssl.mzstatic.com/image/thumb/3iAbZQ4pznOpDRenkvOhNA/738x416.webp",
+    vide : Fondation
+  
   },
   {
     image:
