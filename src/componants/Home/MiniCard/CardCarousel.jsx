@@ -3,9 +3,12 @@ import ReactDOM from "react-dom";
 import Carousel from "react-simply-carousel";
 import { Heading, Box, Text, Divider } from "@chakra-ui/react";
 import "./CardCaro.css";
+import { useNavigate } from "react-router-dom";
 
 export const CardCarousel = ({ data, title, minititle }) => {
+
   const [activeSlide, setActiveSlide] = useState(0);
+  const navigate = useNavigate()
 
   return (
     <Box className="minicard" p={3} pt={5}>
@@ -62,7 +65,7 @@ export const CardCarousel = ({ data, title, minititle }) => {
         speed={400}
       >
         {data.map((item, index) => (
-          <Box
+          <Box onClick={() => navigate("/details")}
             width={{ base: "300px", md: "300px", lg: "300px" }}
             p={5}
             style={{
