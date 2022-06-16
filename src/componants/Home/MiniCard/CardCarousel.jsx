@@ -65,7 +65,7 @@ export const CardCarousel = ({ data, title, minititle }) => {
         speed={400}
       >
         {data.map((item, index) => (
-          <Box onClick={() => navigate("/details")}
+          <Box onClick={() => navigate(`/details/${item.id}`)}
             width={{ base: "300px", md: "300px", lg: "300px" }}
             p={5}
             style={{
