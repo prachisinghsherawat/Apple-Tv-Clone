@@ -1,19 +1,23 @@
 export const cards = [
   {
     image:
-      "https://is3-ssl.mzstatic.com/image/thumb/cyRvgYnPlaVn3rN2SDdW1Q/1000x500.webp",
+      "https://nameh-dhiman.github.io/Apple-TV-Clone-Project.github.io/Images/Tedd%20Lasso.jpg",
   },
   {
     image:
-      "https://is2-ssl.mzstatic.com/image/thumb/8593WFOGVTTA1ncIGrL37g/1478x500.webp",
+      "https://9to5mac.com/wp-content/uploads/sites/6/2022/02/sky-is-everywhere-how-to-watch.jpg?quality=82&strip=all",
   },
   {
     image:
-      "https://is5-ssl.mzstatic.com/image/thumb/owNSUO3F109RC75YDPMY7A/1478x500.webp",
+      "https://flxt.tmsimg.com/assets/p17586756_b_h8_af.jpg",
   },
   {
     image:
-      "https://is1-ssl.mzstatic.com/image/thumb/L79If4rL5GAF2ffGc7jBRg/1478x500.webp",
+      "https://is1-ssl.mzstatic.com/image/thumb/Features126/v4/93/50/f4/9350f4f6-4c50-f6a5-6976-446a5333b265/U0ZfVFZBX1dXX0RlYXItUzItQ29taW5nX1Nvb24tQnJpY2subHNy.lsr/1478x832fe.webp",
+  },
+  {
+    image:
+      "https://www.apple.com/tv-pr/articles/2022/01/global-hit-series-the-morning-show-starring-and-executive-produced-by-jennifer-aniston-and-reese-witherspoon-renewed-for-season-three/images/big-image/big-image-01/011021_The_Morning_Show_Renewed_Season_Three_Big_Image_01_big_image_post.jpg.large.jpg",
   },
 ];
 
