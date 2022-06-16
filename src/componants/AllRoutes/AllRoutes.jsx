@@ -1,8 +1,9 @@
 
 import { Route, Routes } from "react-router-dom";
+import Home from "../Home/Home";
 import { HomeDetails } from "../HomeDetails/HomeDetails"
-import SingleVideo from "./componants/Video/SingleVideo";
-import Home from "./componants/Home/Home";
+import SingleVideo from "../Video/SingleVideo";
+
 
 export const AllRoutes = () => {
 
