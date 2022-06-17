@@ -88,7 +88,7 @@ export const DetailsCard = ({ data, title, minititle }) => {
             <h1>{item.title}</h1>
             <p>{item.description}</p>
             <p>{item.time}</p>
-            
+
           </Box>
         ))}
       </Carousel>

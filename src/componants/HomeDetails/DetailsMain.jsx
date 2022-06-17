@@ -1,7 +1,7 @@
 
 import { Box } from "@chakra-ui/react";
 import { DetailsCard } from "../Home/MiniCard/DetailsCard";
-import { RelatedData, SeasonData } from "../Home/Data/DetailsData";
+import { CastData, RelatedData, SeasonData } from "../Home/Data/DetailsData";
 import { RelatedCard } from "../Home/MiniCard/RelatedCard";
 
 export const DetailsMain = () => {
@@ -38,6 +38,19 @@ export const DetailsMain = () => {
                 data={RelatedData}
             />
         </Box>
+
+        <hr />
+
+        <div className="CastBox">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+
 
 
 
