@@ -72,6 +72,17 @@ export const DetailsMain = () => {
             
         </div>
 
+        <hr />
+
+        <div className="trailerBox">
+            <h1 className="Head">How To Watch</h1>
+            <div>
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/DB8YqlVtN7M8YvGvgsP2eg/400x225.png" alt="" height="100%" width="100%" />
+            </div>
+        </div>
+
+        
+
 
          <DetailsFooter />
 
