@@ -45,6 +45,25 @@
   border-radius: 12px;
 }
 
+.CastBox{
+  height: 290px;
+  display: flex;
+  justify-content: space-between;
+  padding: 3% 0%;
+}
+
+.CastBox>div{
+  width: 15%;
+  height: 95%;
+  border-radius: 50%;
+}
+
+.CastBox>div>img{
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+
 /* https://github.com/tech-jamara/React-Movie-App */
 /* https://github.com/piyush-eon/react-entertainment-hub */
 /* https://github.com/piyush-eon/react-entertainment-hub */

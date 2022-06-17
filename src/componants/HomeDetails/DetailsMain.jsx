@@ -41,13 +41,34 @@ export const DetailsMain = () => {
 
         <hr />
 
-        <div className="CastBox">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div className="trailerBox">
+
+            <h1 className="Head">Cast & Crew</h1>
+
+            <div className="CastBox">
+                <div>
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/nQFFovdeUTTXH3TbXbz_KQ/492x492bb.webp" alt="" />
+                </div>
+                <div>
+                    <img src="https://is2-ssl.mzstatic.com/image/thumb/CUR1hHL_Tea1n0Jpfxz_kw/492x492bb.webp" alt="" />
+                </div>
+                <div>
+                    <img src="https://is4-ssl.mzstatic.com/image/thumb/kTEKRpv_3ghSGA7ajSciiQ/492x492bb.webp" alt="" />
+                </div>
+
+                <div>
+                    <img src="https://is4-ssl.mzstatic.com/image/thumb/vzz8NxN-sV5KUAxlFa-B7A/492x492bb.webp" alt="" />
+                </div>
+                
+                <div>
+                    <img src="https://is5-ssl.mzstatic.com/image/thumb/FFVfIP6QoZ8bSWU6UsCtVA/492x492bb.webp" alt="" />
+                </div>
+                
+                <div>
+                    <img src="https://is2-ssl.mzstatic.com/image/thumb/NOGi7wJKPKYXGe54sLrGXQ/492x492ve.webp" alt="" />
+                </div>
+            </div>
+            
         </div>
 
 
