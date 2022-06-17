@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { DetailsCard } from "../Home/MiniCard/DetailsCard";
 import { CastData, RelatedData, SeasonData } from "../Home/Data/DetailsData";
 import { RelatedCard } from "../Home/MiniCard/RelatedCard";
+import { DetailsFooter } from "./DetailsFooter";
 
 export const DetailsMain = () => {
 
@@ -59,7 +60,7 @@ export const DetailsMain = () => {
                 <div>
                     <img src="https://is4-ssl.mzstatic.com/image/thumb/vzz8NxN-sV5KUAxlFa-B7A/492x492bb.webp" alt="" />
                 </div>
-                
+
                 <div>
                     <img src="https://is5-ssl.mzstatic.com/image/thumb/FFVfIP6QoZ8bSWU6UsCtVA/492x492bb.webp" alt="" />
                 </div>
@@ -72,7 +73,7 @@ export const DetailsMain = () => {
         </div>
 
 
-
+         <DetailsFooter />
 
 
         

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {comingSoon} from "../Home/Data/Data"
+import { Footer } from "../Home/Footer/Footer";
 import { DetailsMain } from "./DetailsMain";
 
 
