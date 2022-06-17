@@ -7,18 +7,18 @@ export const DetailsFooter = () => {
 
 
     <div id="howtowatch">
-      <p id="how">How To Watch</p>
+      <p id="how"></p>
       <div id="htw-mainbox">
         <div id="htw-innbox">
           <div>
-            <img
+            {/* <img
               src="https://is1-ssl.mzstatic.com/image/thumb/DB8YqlVtN7M8YvGvgsP2eg/400x225.png"
               alt="Apple TV+"
-            />
+            /> */}
           </div>
-          <div id="text">Start Free Trial</div>
+          <div id="text"></div>
         </div>
-        <p id="free-trial">7 day's free, then $4.99/month</p>
+        <p id="free-trial"></p>
       </div>
       <hr />
 
@@ -26,17 +26,14 @@ export const DetailsFooter = () => {
 
       {/* <!-- ABOUT SECTION --> */}
 
-
+       <div className="blackDiv">
+           
       <h3 id="h3">About</h3>
       <div id="about">
         <div id="about1">
           <div id="info">
             <h3 class="ab" id="ab1">Pretzel and the Puppies           </h3>
-            <p  class="ab" id="ab2">KIDS & FAMILY            </p>
-            <p  class="ab" id="ab3"> Meet Pretzel, the world's longest dachshund and a playful, supportive
-                dad to five frisky puppies. Together with his wife, Greta, they
-                encourage their pups to get their paws up to solve problems and
-                "make their bark" on the world.</p>         
+            <p  class="ab" id="ab2">KIDS & FAMILY            </p>     
                 
                  </div>
         </div>
@@ -94,6 +91,7 @@ export const DetailsFooter = () => {
 
     </div>
 
+       </div>
 
     )
 }

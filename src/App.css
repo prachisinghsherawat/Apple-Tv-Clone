@@ -64,6 +64,8 @@
   border-radius: 50%;
 }
 
-/* https://github.com/tech-jamara/React-Movie-App */
-/* https://github.com/piyush-eon/react-entertainment-hub */
-/* https://github.com/piyush-eon/react-entertainment-hub */
+.blackDiv{
+  padding: 4% 0%;
+  background-color: rgb(0, 0, 0);
+  color: rgb(167, 167, 163);
+}
