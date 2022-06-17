@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {comingSoon} from "../Home/Data/Data"
+import { DetailsMain } from "./DetailsMain";
 
 
 export const HomeDetails = () =>{
@@ -17,6 +18,9 @@ export const HomeDetails = () =>{
     }
 
   return (
+
+    <>
+
     <div  className="playback">
       <video controls
         width="100%"
@@ -35,7 +39,17 @@ export const HomeDetails = () =>{
 
       </video>
     </div>
+
+
+    <DetailsMain />
+
+    </>
+
+
+
   );
+
+
 }
 
 
