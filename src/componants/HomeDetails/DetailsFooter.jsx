@@ -7,7 +7,7 @@ export const DetailsFooter = () => {
         <>
 
      <footer id="def-footer">
-      <div class="main-footer">
+        <div class="main-footer">
         <div class="main-footer_info">
           <div class="copy">
             Copyright &copy; 2022 Apple Inc. All rights reserved.
