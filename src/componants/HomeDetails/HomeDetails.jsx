@@ -53,26 +53,3 @@ export const HomeDetails = () =>{
 }
 
 
-
-
-
-
-
-
-
-// export const HomeDetails = () => {
-
-//     return(
-
-//         <>
-//             <div class="playback">
-//             <video width="400" controls>
-//                   <source src={Avengers} type="video/mp4" />
- 
-//                    Your browser does not support HTML video.
-//             </video>
-//             </div>
-
-//         </>
-//     )
-// }
