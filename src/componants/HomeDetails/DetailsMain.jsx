@@ -1,8 +1,8 @@
 
 import { Box } from "@chakra-ui/react";
 import { DetailsCard } from "../Home/MiniCard/DetailsCard";
-import { comingSoon } from "../Home/Data/Data";
-import { SeasonData } from "../Home/Data/DetailsData";
+import { RelatedData, SeasonData } from "../Home/Data/DetailsData";
+import { CardCarousel } from "../Home/MiniCard/CardCarousel";
 
 export const DetailsMain = () => {
 
@@ -13,14 +13,33 @@ export const DetailsMain = () => {
 
         <Box top="30px" mt={90} id="boxIs" >
             <DetailsCard 
-            
+
                 data={SeasonData}
                 title={"SEASON 1"}
                 minititle={"Add to your Up Next watchlist today."}
             />
         </Box>
-
         </div>
+
+        <div className="trailerBox">
+            <h1 className="Head">Trailers</h1>
+            <div>
+                <img src="https://is4-ssl.mzstatic.com/image/thumb/MyAuxYfuNZeytIiPf5PhiQ/1000x563.webp" alt="" height="100%" width="100%" />
+            </div>
+        </div>
+
+        <hr />
+
+        <Box top="30px" mt={90} >
+
+            <h1 className="HeadRel">Related</h1>
+            <CardCarousel 
+
+                data={RelatedData}
+            />
+        </Box>
+
+
 
         
         </>

@@ -19,6 +19,33 @@
   height: 380px;
 }
 
+.trailerBox{
+  height: 400px;
+  padding: 3% 6%;
+}
+
+.Head{
+  text-align: start;
+  margin-left: 5%;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.HeadRel{
+  text-align: start;
+  margin-left: 11%;
+  font-size: 28px;
+  font-weight: 600;
+  margin-top: -3%;
+}
+
+.trailerBox>div>img{
+  margin-top: 2%;
+  height: 80%;
+  width: 30%;
+  border-radius: 12px;
+}
+
 /* https://github.com/tech-jamara/React-Movie-App */
 /* https://github.com/piyush-eon/react-entertainment-hub */
 /* https://github.com/piyush-eon/react-entertainment-hub */
