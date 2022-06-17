@@ -2,7 +2,7 @@
 import { Box } from "@chakra-ui/react";
 import { DetailsCard } from "../Home/MiniCard/DetailsCard";
 import { RelatedData, SeasonData } from "../Home/Data/DetailsData";
-import { CardCarousel } from "../Home/MiniCard/CardCarousel";
+import { RelatedCard } from "../Home/MiniCard/RelatedCard";
 
 export const DetailsMain = () => {
 
@@ -33,7 +33,7 @@ export const DetailsMain = () => {
         <Box top="30px" mt={90} >
 
             <h1 className="HeadRel">Related</h1>
-            <CardCarousel 
+            <RelatedCard
 
                 data={RelatedData}
             />
