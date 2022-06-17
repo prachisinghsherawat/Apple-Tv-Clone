@@ -1,16 +1,23 @@
 
-
-
+import { Box } from "@chakra-ui/react";
+import { DetailsCard } from "../Home/MiniCard/DetailsCard";
+import { comingSoon } from "../Home/Data/Data";
 
 export const DetailsMain = () => {
 
     return(
         <>
 
-        <div class="playback-content">
-        <div class="imgdiv">
-          <img src="https://is5-ssl.mzstatic.com/image/thumb/C4gOK1g4HdxnV3o8sWjCtg/1200x450.webp" alt="" />
-        </div>
+        <div className="DetailsBox">
+
+        <Box top="30px" mt={90} id="boxIs" >
+            <DetailsCard 
+                data={comingSoon}
+                title={"SEASON 1"}
+                minititle={"Add to your Up Next watchlist today."}
+            />
+        </Box>
+
         </div>
 
         
