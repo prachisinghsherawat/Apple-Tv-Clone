@@ -84,6 +84,11 @@ export const DetailsCard = ({ data, title, minititle }) => {
               }}
               src={item.image}
             />
+            <h2>{item.episode}</h2>
+            <h1>{item.title}</h1>
+            <p>{item.description}</p>
+            <p>{item.time}</p>
+            
           </Box>
         ))}
       </Carousel>

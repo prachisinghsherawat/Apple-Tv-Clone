@@ -13,6 +13,7 @@ export const DetailsMain = () => {
 
         <Box top="30px" mt={90} id="boxIs" >
             <DetailsCard 
+            
                 data={SeasonData}
                 title={"SEASON 1"}
                 minititle={"Add to your Up Next watchlist today."}
