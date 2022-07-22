@@ -34,6 +34,7 @@ export const cards = [
   },
 ];
 
+
 export const images = [
   {
     img1: "https://is3-ssl.mzstatic.com/image/thumb/Features122/v4/30/8c/1b/308c1bdb-c1c7-fa4f-33d1-08065907d59f/e0e6538f-f6d0-467f-816e-077180a1e041.png/1320x495sr.webp",
@@ -50,6 +51,7 @@ export const images = [
 ];
 
 const comingSoon = [
+  
   {
     id : 1,
     image:
@@ -122,6 +124,7 @@ const comingSoon = [
     video : Tehran
   },
 ];
+
 
 const tales = [
   {
@@ -204,6 +207,7 @@ const mysteries = [
   },
 ];
 
+
 const voice = [
   {
     image:
@@ -240,6 +244,7 @@ const voice = [
       "https://is3-ssl.mzstatic.com/image/thumb/cyRvgYnPlaVn3rN2SDdW1Q/738x416.webp",
   },
 ];
+
 
 const extraOrd = [
   {
@@ -299,6 +304,7 @@ const extraOrd = [
     desc: "Bryce Dallas Howard's doc is a joyful, star- studded look at being dad today.",
   },
 ];
+
 
 const creatures = [
   {
