@@ -31,6 +31,7 @@ export default function MiniBanner({ data }) {
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
   return (
+    
     <Center mt={5}>
       <Box
         justifyContent={"center"}
