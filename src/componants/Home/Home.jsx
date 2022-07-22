@@ -15,10 +15,13 @@ import {
   nonFi,
   kidsFam,
 } from "./Data/Data";
+
+
 import { Box } from "@chakra-ui/react";
 import { Footer } from "./Footer/Footer";
 import MiniBanner from "./MiniBanner/MiniBanner";
 import { CardCarousel } from "./MiniCard/CardCarousel";
+
 
 function Home() {
   return (
@@ -61,5 +64,6 @@ function Home() {
     </Box>
   );
 }
+
 
 export default Home;
