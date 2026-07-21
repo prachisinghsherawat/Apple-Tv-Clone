@@ -1,4 +1,3 @@
-import { store } from "../store";
 import { registeractions } from "./action";
 
 const init = {

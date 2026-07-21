@@ -1,178 +1,167 @@
+import React, { useState } from "react";
 import {
-  AlertDialog,
+  Alert,
+  AlertIcon,
   Button,
-  Input,
-  Container,
-  AlertDialogFooter,
-  AlertDialogContent,
-  AlertDialogOverlay,
+  Divider,
+  FormControl,
   Heading,
+  Input,
   InputGroup,
   InputLeftElement,
-  chakra,
-  Center,
-  Text,
-  Stack,
-  Link,
-  FormControl,
   InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
-import { BsFillCalendarDateFill } from "react-icons/bs";
-import { FaUserAlt, FaLock } from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useReducer } from "react";
 import { registernuser } from "../../../Redux/Registration/action";
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
+import AppleGlyph from "./AppleGlyph";
 
-const initState = {
-  name: "",
-  email: "",
-  password: "",
-  // dateofbirth: "",
-};
+const initState = { name: "", email: "", password: "" };
 
-export const Signup = ({
-  isOpen,
-  onOpen,
-  onClose,
-  cancelRef,
-  handelhideshow,
-}) => {
+export const Signup = ({ isOpen, onClose, toggleAuthMode }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [user, setuser] = useState(initState);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    let { name, value } = e.target;
-    setuser({ ...user, [name]: value });
+    const { name, value } = e.target;
+    setuser((current) => ({ ...current, [name]: value }));
   };
-
-  const handleShowClick = () => setShowPassword(!showPassword);
 
   const handelsubmit = (event) => {
     event.preventDefault();
-    dispatch(registernuser(user)).then(() => {
-      handelhideshow();
-    });
+    setError("");
+    setLoading(true);
+
+    dispatch(registernuser(user))
+      .then(() => {
+        setuser(initState);
+        onClose();
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   };
 
   return (
-    <>
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        size="2xl"
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent minW={{ base: 70, md: 100 }}>
-            <Container centerContent>
-              <Center p={4}>
-                <Heading size="lg">Create Apple ID</Heading>
-              </Center>
-              <FormControl mt={5}>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    size="lg"
-                    children={
-                      <CFaUserAlt
-                        color="gray.300"
-                        focusBorderColor="pink.400"
-                      />
-                    }
-                  />
+    <Modal isOpen={isOpen} onClose={onClose} isCentered size="md">
+      <ModalOverlay bg="blackAlpha.800" backdropFilter="blur(8px)" />
+      <ModalContent bg="surface.raised" border="1px solid" borderColor="surface.border" borderRadius="2xl" pb={2}>
+        <ModalCloseButton color="content.secondary" />
+        <ModalBody as="form" onSubmit={handelsubmit} px={{ base: 6, md: 10 }} py={9}>
+          <Stack spacing={6} align="center">
+            <AppleGlyph />
+            <Stack spacing={2} textAlign="center">
+              <Heading size="md" fontWeight="700">
+                Create your Apple ID
+              </Heading>
+              <Text fontSize="sm" color="content.secondary">
+                One Apple ID is all you need across all Apple services.
+              </Text>
+            </Stack>
+
+            {error && (
+              <Alert status="error" bg="red.900" color="red.100" borderRadius="lg" fontSize="sm" py={2}>
+                <AlertIcon color="red.300" />
+                {error}
+              </Alert>
+            )}
+
+            <Stack spacing={3} width="100%">
+              <FormControl isRequired>
+                <InputGroup size="lg">
+                  <InputLeftElement pointerEvents="none" color="content.muted">
+                    <FaUserAlt size="14px" />
+                  </InputLeftElement>
                   <Input
-                    isRequired
-                    type="text"
-                    placeholder="User Name"
                     name="name"
+                    value={user.name}
+                    placeholder="Full name"
                     onChange={handleChange}
+                    fontSize="md"
+                    borderRadius="xl"
                   />
                 </InputGroup>
               </FormControl>
-              <FormControl mt={5}>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    color="gray.300"
-                    children={<MdOutlineEmail color="gray.300" />}
-                  />
-               
+
+              <FormControl isRequired>
+                <InputGroup size="lg">
+                  <InputLeftElement pointerEvents="none" color="content.muted">
+                    <MdOutlineEmail size="18px" />
+                  </InputLeftElement>
                   <Input
                     type="email"
-                    placeholder="    Email address"
                     name="email"
+                    value={user.email}
+                    placeholder="Email address"
                     onChange={handleChange}
-                  />
-                </InputGroup>
-                <p>Your email will be your Apple ID.</p>
-              </FormControl>
-              <FormControl mt={5}>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    color="gray.300"
-                    children={<BsFillCalendarDateFill color="gray.300" />}
-                  />
-                  <Input
-                    type="date"
-                    placeholder="Birth Date"
-                    name="dateofbirth"
-                    // onChange={handleChange}
+                    fontSize="md"
+                    borderRadius="xl"
                   />
                 </InputGroup>
               </FormControl>
-              <FormControl mt={5}>
-                <InputGroup>
+
+              <FormControl isRequired>
+                <InputGroup size="lg">
                   <Input
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password"
                     name="password"
+                    value={user.password}
+                    placeholder="Password (min. 6 characters)"
                     onChange={handleChange}
+                    fontSize="md"
+                    borderRadius="xl"
                   />
-                  <InputRightElement h={"full"}>
+                  <InputRightElement>
                     <Button
-                      variant={"ghost"}
-                      onClick={() =>
-                        setShowPassword((showPassword) => !showPassword)
-                      }
+                      variant="ghost"
+                      size="sm"
+                      color="content.secondary"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowPassword((current) => !current)}
+                      _hover={{ bg: "whiteAlpha.100" }}
                     >
                       {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-            </Container>
-            <Center>
-              <AlertDialogFooter>
-                <Button
-                  colorScheme="telegram"
-                  ref={cancelRef}
-                  onClick={handelsubmit}
-                  // onClick={handelhideshow}
-                  //   onClick={onClose}
-                >
-                  Create ID
-                </Button>
-              </AlertDialogFooter>
-            </Center>
-            <Stack pt={3} mb={5}>
-              <Text align={"center"}>
-                Already a user? <Link color={"blue.400"}>Login</Link>
-              </Text>
+
+              <Button
+                type="submit"
+                variant="hero"
+                size="lg"
+                borderRadius="xl"
+                isLoading={loading}
+                loadingText="Creating"
+              >
+                Create Apple ID
+              </Button>
             </Stack>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </>
+
+            <Divider borderColor="surface.border" />
+
+            <Text fontSize="sm" color="content.secondary">
+              Already have an Apple ID?{" "}
+              <Button variant="link" size="sm" color="brand.300" onClick={toggleAuthMode}>
+                Sign in
+              </Button>
+            </Text>
+          </Stack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
-// https://apple-tv-plus-clone.vercel.app/
-// https://github.com/vadimghedreutan/Apple-tv-plus-clone
+
+export default Signup;

@@ -1,113 +1,177 @@
-import React, { useState } from "react";
-import { Box } from "@chakra-ui/react";
-import "./Footer.css";
-import TV from "../Images/TV App Logo.png";
+import { Box, Divider, Flex, Heading, Link, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import TvLogo from "../Images/TV App Logo.png";
+import AppleTvDevice from "../Images/product_landing 1.png";
+import IPhone from "../Images/product_landing 2.png";
+import IPad from "../Images/product_landing 3.png";
+import Mac from "../Images/product_landing 4.png";
+import Airplay from "../Images/product_landing 5.png";
+import Banner1 from "../Images/banner 1.png";
+import Banner2 from "../Images/banner 2.png";
+import Banner3 from "../Images/banner 3.png";
 
-export const Footer = () => {
-  return (
-    <Box>
-      <div id="devices-info_container">
-        <div className="devices-info">
-          <div className="tv-logo">
-            <img src={require("../Images/TV App Logo.png")} alt="" />
-          </div>
-          <p className="devices-heading">Watch Apple TV+ here or anywhere.</p>
-          <p className="devices-subheading">
-            Find Apple TV+ on the Apple TV app, available on Apple Devices,
-            smart TVs, and more.
-          </p>
-          <p className="support-link">
-            <a href="https://support.apple.com/en-in/guide/tvplus/welcome/web">
-              See all supported devices&nbsp
-            </a>
-          </p>
-          <div className="devices">
-            <div className="device">
-              <img src={require("../Images/product_landing 1.png")} />
-              <p className="dev-cat">Apple TV</p>
-            </div>
-            <div className="device">
-              <img src={require("../Images/product_landing 2.png")} />
-              <p className="dev-cat">iPhone</p>
-            </div>
-            <div className="device">
-              <img src={require("../Images/product_landing 3.png")} />
-              <p className="dev-cat">iPad</p>
-            </div>
-            <div className="device">
-              <img src={require("../Images/product_landing 4.png")} />
-              <p className="dev-cat">Mac</p>
-            </div>
-            <div className="device">
-              <img src={require("../Images/product_landing 5.png")} />
-              <p className="dev-cat">Airplay</p>
-            </div>
-          </div>
-          <p className="dev-info">See on your big screen.</p>
-          <p className="dev-setup">
-            <a href="https://support.apple.com/en-in/guide/tvplus/welcome/web">
-              Set up your device&nbsp
-            </a>
-          </p>
-          <p className="dev-compt">
-            <a href="https://www.apple.com/apple-tv-app/devices/">
-              Explore compatible devices&nbsp
-            </a>
-          </p>
-          <div className="compt-devices">
-            <div className="compt-device">
-              <img src="../Images/banner 1.png" alt="" />
-              <p className="dev-cat">Streaming Devices</p>
-              <ul className="dev-list">
-                <li>Roku</li>
-                <li>Fire TV</li>
-                <li>Google TV</li>
-                <li>Android TV</li>
-              </ul>
-            </div>
-            <div className="compt-device">
-              <img src="../Images/banner 2.png" alt="" />
-              <p className="dev-cat">Smart TVs</p>
-              <ul className="dev-list">
-                <li>Samsung</li>
-                <li>LG</li>
-                <li>VIZIO</li>
-                <li>Sony</li>
-              </ul>
-            </div>
-            <div className="compt-device">
-              <img src="../Images/banner 3.png" alt="" />
-              <p className="dev-cat">Gaming Consoles</p>
-              <ul className="dev-list">
-                <li>PlayStation</li>
-                <li>Xbox</li>
-              </ul>
-            </div>
-          </div>
-          <p className="avail">
-            Device availability varies by country or region.
-          </p>
-        </div>
-      </div>
+const SECTION_X = { base: 5, md: 10, lg: 16 };
 
-      <footer id="footer">
-        <div className="main-footer">
-          <div className="main-footer_info">
-            <div className="copy">
-              Copyright &copy; 2022 Apple Inc. All rights reserved.
-            </div>
-            <div className="main-footer_info-nav">
-              <div className="footer-info_items">Internet Service Terms</div>
-              <div className="footer-info_items">Apple TV and Privacy</div>
-              <div className="footer-info_items">Cookie Warning</div>
-              <div className="footer-info_items" id="footer-support_info">
-                Support
-              </div>
-            </div>
-          </div>
-          <div className="main-footer_country">United States</div>
-        </div>
-      </footer>
+const DEVICES = [
+  { src: AppleTvDevice, label: "Apple TV" },
+  { src: IPhone, label: "iPhone" },
+  { src: IPad, label: "iPad" },
+  { src: Mac, label: "Mac" },
+  { src: Airplay, label: "AirPlay" },
+];
+
+const PLATFORMS = [
+  { src: Banner1, label: "Streaming Devices", items: ["Roku", "Fire TV", "Google TV", "Android TV"] },
+  { src: Banner2, label: "Smart TVs", items: ["Samsung", "LG", "VIZIO", "Sony"] },
+  { src: Banner3, label: "Gaming Consoles", items: ["PlayStation", "Xbox"] },
+];
+
+const LEGAL = [
+  "Internet Service Terms",
+  "Apple TV & Privacy",
+  "Cookie Warning",
+  "Support",
+];
+
+export const Footer = () => (
+  <Box as="footer" bg="surface.canvas" borderTop="1px solid" borderColor="surface.border">
+    <Box px={SECTION_X} py={{ base: 14, md: 20 }}>
+      <Stack spacing={4} align="center" textAlign="center" maxW="640px" mx="auto">
+        <Box as="img" src={TvLogo} alt="Apple TV app" height="52px" objectFit="contain" />
+        <Heading as="h2" fontSize={{ base: "xl", md: "3xl" }} fontWeight="700">
+          Watch Apple TV+ here or anywhere.
+        </Heading>
+        <Text fontSize={{ base: "sm", md: "md" }} color="content.secondary">
+          Find Apple TV+ on the Apple TV app, available on Apple devices, smart TVs, and more.
+        </Text>
+        <Link
+          href="https://support.apple.com/en-in/guide/tvplus/welcome/web"
+          isExternal
+          color="brand.300"
+          fontSize="sm"
+          fontWeight="500"
+          _hover={{ textDecoration: "underline" }}
+        >
+          See all supported devices →
+        </Link>
+      </Stack>
+
+      <SimpleGrid columns={{ base: 3, md: 5 }} spacing={{ base: 6, md: 10 }} mt={{ base: 12, md: 16 }}>
+        {DEVICES.map((device) => (
+          <Stack key={device.label} spacing={3} align="center">
+            <Box
+              as="img"
+              src={device.src}
+              alt={device.label}
+              loading="lazy"
+              height={{ base: "56px", md: "76px" }}
+              objectFit="contain"
+              opacity={0.9}
+              transition="opacity 0.25s ease, transform 0.25s ease"
+              _hover={{ opacity: 1, transform: "translateY(-4px)" }}
+            />
+            <Text fontSize="sm" color="content.secondary">
+              {device.label}
+            </Text>
+          </Stack>
+        ))}
+      </SimpleGrid>
     </Box>
-  );
-};
+
+    <Box px={SECTION_X}>
+      <Divider borderColor="surface.border" />
+    </Box>
+
+    <Box px={SECTION_X} py={{ base: 12, md: 16 }}>
+      <Stack spacing={3} align="center" textAlign="center" mb={{ base: 10, md: 14 }}>
+        <Heading as="h2" fontSize={{ base: "lg", md: "2xl" }} fontWeight="700">
+          See it on your big screen.
+        </Heading>
+        <Link
+          href="https://www.apple.com/apple-tv-app/devices/"
+          isExternal
+          color="brand.300"
+          fontSize="sm"
+          fontWeight="500"
+          _hover={{ textDecoration: "underline" }}
+        >
+          Explore compatible devices →
+        </Link>
+      </Stack>
+
+      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 8, md: 10 }}>
+        {PLATFORMS.map((platform) => (
+          <Stack
+            key={platform.label}
+            spacing={4}
+            p={6}
+            borderRadius="2xl"
+            bg="surface.raised"
+            border="1px solid"
+            borderColor="surface.border"
+            transition="transform 0.25s ease, border-color 0.25s ease"
+            _hover={{ transform: "translateY(-4px)", borderColor: "whiteAlpha.400" }}
+          >
+            <Box
+              as="img"
+              src={platform.src}
+              alt={platform.label}
+              loading="lazy"
+              height="64px"
+              objectFit="contain"
+              alignSelf="flex-start"
+            />
+            <Text fontWeight="600">{platform.label}</Text>
+            <Stack spacing={1}>
+              {platform.items.map((entry) => (
+                <Text key={entry} fontSize="sm" color="content.secondary">
+                  {entry}
+                </Text>
+              ))}
+            </Stack>
+          </Stack>
+        ))}
+      </SimpleGrid>
+
+      <Text fontSize="xs" color="content.muted" textAlign="center" mt={10}>
+        Device availability varies by country or region.
+      </Text>
+    </Box>
+
+    <Box px={SECTION_X}>
+      <Divider borderColor="surface.border" />
+    </Box>
+
+    <Flex
+      px={SECTION_X}
+      py={7}
+      direction={{ base: "column", md: "row" }}
+      align={{ base: "flex-start", md: "center" }}
+      justify="space-between"
+      gap={4}
+    >
+      <Stack spacing={3} direction={{ base: "column", md: "row" }} align={{ md: "center" }}>
+        <Text fontSize="xs" color="content.muted">
+          Copyright © {new Date().getFullYear()} Apple Inc. All rights reserved.
+        </Text>
+        <Flex gap={4} wrap="wrap">
+          {LEGAL.map((entry) => (
+            <Text
+              key={entry}
+              fontSize="xs"
+              color="content.secondary"
+              cursor="pointer"
+              _hover={{ color: "content.primary", textDecoration: "underline" }}
+            >
+              {entry}
+            </Text>
+          ))}
+        </Flex>
+      </Stack>
+      <Text fontSize="xs" color="content.muted">
+        United States
+      </Text>
+    </Flex>
+  </Box>
+);
+
+export default Footer;

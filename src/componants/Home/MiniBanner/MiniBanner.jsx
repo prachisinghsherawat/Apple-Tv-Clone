@@ -1,101 +1,67 @@
-import React, { useState } from "react";
-import {
-  Box,
-  IconButton,
-  useBreakpointValue,
-  Stack,
-  Heading,
-  Button,
-  Center,
-  Divider,
-} from "@chakra-ui/react";
-import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
-import Slider from "react-slick";
+import React, { useCallback, useEffect, useState } from "react";
+import { Box, HStack } from "@chakra-ui/react";
 
-const settings = {
-  dots: true,
-  arrows: false,
-  fade: true,
-  infinite: true,
-  autoplay: true,
-  speed: 500,
-  autoplaySpeed: 3000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
+const AUTOPLAY_MS = 5000;
 
-export default function MiniBanner({ data }) {
-  const [slider, setSlider] = useState("");
+export default function MiniBanner({ data = [] }) {
+  const [active, setActive] = useState(0);
 
-  const top = useBreakpointValue({ base: "90%", md: "50%" });
-  const side = useBreakpointValue({ base: "30%", md: "40px" });
+  const go = useCallback(
+    (next) => setActive((next + data.length) % data.length),
+    [data.length]
+  );
+
+  useEffect(() => {
+    if (!data.length) return undefined;
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return undefined;
+
+    const timer = setInterval(() => go(active + 1), AUTOPLAY_MS);
+    return () => clearInterval(timer);
+  }, [active, go, data.length]);
+
+  if (!data.length) return null;
 
   return (
-    
-    <Center mt={5}>
+    <Box as="section" aria-label="Featured collections" px={{ base: 5, md: 10, lg: 16 }} py={{ base: 10, md: 14 }}>
       <Box
-        justifyContent={"center"}
-        alignItems={"center"}
-        position={"relative"}
-        height={"500px"}
-        width={"80%"}
-        overflow={"hidden"}
+        position="relative"
+        borderRadius="2xl"
+        overflow="hidden"
+        boxShadow="0 20px 60px rgba(0,0,0,0.6)"
+        sx={{ aspectRatio: ["16 / 9", null, "1320 / 495"] }}
       >
-        {/* CSS files for react-slick */}
-        <link
-          rel="stylesheet"
-          type="text/css"
-          charSet="UTF-8"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-        />
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-        />
-        {/* Left Icon */}
-        <IconButton
-          aria-label="left-arrow"
-          variant="ghost"
-          position="absolute"
-          left={side}
-          top={top}
-          transform={"translate(0%, -50%)"}
-          zIndex={2}
-          onClick={() => slider?.slickPrev()}
-        >
-          <BiLeftArrowAlt size="40px" />
-        </IconButton>
-        {/* Right Icon */}
-        <IconButton
-          aria-label="right-arrow"
-          variant="ghost"
-          position="absolute"
-          right={side}
-          top={top}
-          transform={"translate(0%, -50%)"}
-          zIndex={2}
-          onClick={() => slider?.slickNext()}
-        >
-          <BiRightArrowAlt size="40px" />
-        </IconButton>
-        {/* Slider */}
-        <Slider {...settings} ref={(slider) => setSlider(slider)}>
-          {data.map((card, index) => (
+        {data.map((slide, index) => (
+          <Box
+            key={slide.uid || index}
+            position="absolute"
+            inset={0}
+            bgImage={`url(${slide.image})`}
+            bgSize="cover"
+            bgPosition="center"
+            opacity={index === active ? 1 : 0}
+            transition="opacity 0.8s ease"
+            aria-hidden={index !== active}
+          />
+        ))}
+
+        <HStack position="absolute" bottom={4} left="50%" transform="translateX(-50%)" spacing={2}>
+          {data.map((slide, index) => (
             <Box
-              key={index}
-              height={"lg"}
-              position="relative"
-              backgroundPosition="center"
-              backgroundRepeat="no-repeat"
-              backgroundSize="cover"
-              borderRadius={50}
-              backgroundImage={`url(${card.image})`}
-            ></Box>
+              key={slide.uid || index}
+              as="button"
+              aria-label={`Show slide ${index + 1}`}
+              aria-current={index === active}
+              onClick={() => go(index)}
+              boxSize="8px"
+              borderRadius="full"
+              bg={index === active ? "content.primary" : "whiteAlpha.500"}
+              transition="background 0.3s ease, transform 0.3s ease"
+              _hover={{ bg: "content.primary", transform: "scale(1.25)" }}
+            />
           ))}
-        </Slider>
-        <Divider borderWidth="2px" ml={5} mr={5} colorScheme="gray.100" />
+        </HStack>
       </Box>
-    </Center>
+    </Box>
   );
 }

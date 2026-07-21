@@ -1,68 +1,44 @@
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { clearSession, signIn } from "./mockAuth";
+
 export const registeractions = {
-    ADD_TOKEN_REQUEST: "ADD_TOKEN_REQUEST",
-    ADD_TOKEN_SUCCESS: "ADD_TOKEN_SUCCESS",
-    ADD_TOKEN_FAILURE: "ADD_TOKEN_FAILURE",
-    LOGOUT: "LOGOUT"
-    // REMOVE_TOKEN_REQUEST: "REMOVE_TOKEN_REQUEST",
-    // REMOVE_TOKEN_SUCCESS: "REMOVE_TOKEN_SUCCESS",
-    // REMOVE_TOKEN_FAILURE: "REMOVE_TOKEN_FAILURE",
-}
+  ADD_TOKEN_REQUEST: "ADD_TOKEN_REQUEST",
+  ADD_TOKEN_SUCCESS: "ADD_TOKEN_SUCCESS",
+  ADD_TOKEN_FAILURE: "ADD_TOKEN_FAILURE",
+  LOGOUT: "LOGOUT",
+};
 
+export const addtokenreq = () => ({ type: registeractions.ADD_TOKEN_REQUEST });
 
-// to avoid spelling mistake we store it in the variable.
-export const addtokenreq = () => {
-    return {
-        type: registeractions.ADD_TOKEN_REQUEST,
-    };
-}
+export const addtokenres = (session) => ({
+  type: registeractions.ADD_TOKEN_SUCCESS,
+  payload: session,
+});
 
-export const addtokenres = (token) => {
-    return {
-        type: registeractions.ADD_TOKEN_SUCCESS,
-        payload: token
-    };
-}
+export const addtokenerr = (message) => ({
+  type: registeractions.ADD_TOKEN_FAILURE,
+  payload: { message },
+});
 
-export const addtokenerr = () => {
-    return {
-        type: registeractions.ADD_TOKEN_FAILURE,
-    };
-}
+export const logout = () => {
+  clearSession();
+  return { type: registeractions.LOGOUT };
+};
 
-export const logout = () => (
-    { type: "LOGOUT" }
-);
+/**
+ * Resolves with the session on success and rejects with a message on failure,
+ * so the modal can render an inline error instead of the old `alert()` calls.
+ */
+export const getusertoken = (credentials) => (dispatch) => {
+  dispatch(addtokenreq());
 
-
-export const getusertoken = ({ userlogin, onClose }) => (dispatch) => {
-
-    dispatch(addtokenreq());
-    console.log(userlogin)
-    return axios.post('https://ghost-auth-service.herokuapp.com/login', userlogin)
-        .then((res) => {
-            alert("Logged In Successful")
-            localStorage.setItem('tvappletoken', JSON.stringify(res.data.token));
-            dispatch(addtokenres(res.data.token))
-            // if (res.data.error == false) {
-            //     onClose()
-            // }
-        })
-        .catch((err) => {
-            alert("Wrong Appli Id or Password")
-            dispatch(addtokenerr())
-        })
-}
-
-export const removeuser = () => {
-    return {
-        type: registeractions.REMOVE_TOKEN_REQUEST,
-        payload: ""
-    };
-}
-
-export const signout = () => (dispatch) => {
-    dispatch(removeuser());
-    localStorage.setItem('tvappletoken', JSON.stringify(""));
-}
+  return signIn(credentials)
+    .then((session) => {
+      dispatch(addtokenres(session));
+      return session;
+    })
+    .catch((error) => {
+      const message = error?.message || "Unable to sign in. Please try again.";
+      dispatch(addtokenerr(message));
+      throw new Error(message);
+    });
+};

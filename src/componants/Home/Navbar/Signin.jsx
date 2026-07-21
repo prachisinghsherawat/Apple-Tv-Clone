@@ -1,145 +1,155 @@
+import React, { useState } from "react";
 import {
-  AlertDialog,
-  Container,
+  Alert,
+  AlertIcon,
   Button,
+  Divider,
+  FormControl,
   Heading,
   Input,
-  Text,
-  Center,
-  InputRightElement,
-  AlertDialogFooter,
-  AlertDialogContent,
   InputGroup,
-  FormControl,
-  FormLabel,
-  AlertDialogOverlay,
+  InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useDispatch } from "react-redux";
 import { getusertoken } from "../../../Redux/Login/action";
-import { useNavigate } from "react-router-dom";
+import { DEMO_CREDENTIALS } from "../../../Redux/Login/mockAuth";
+import AppleGlyph from "./AppleGlyph";
 
-const init = {
-  email: "",
-  password: "",
-};
+const init = { email: "", password: "" };
 
-export const Signin = ({ isOpen, onClose, cancelRef, handelhideshow }) => {
+export const Signin = ({ isOpen, onClose, toggleAuthMode }) => {
   const [userlogin, setuserlogin] = useState(init);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleShowClick = () => setShowPassword(!showPassword);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    let { name, value } = e.target;
-    setuserlogin({ ...userlogin, [name]: value });
+    const { name, value } = e.target;
+    setuserlogin((current) => ({ ...current, [name]: value }));
   };
 
   const handelsubmit = (event) => {
-    dispatch(getusertoken({ userlogin, handelhideshow, onClose })).then(() => {
-      onClose();
-    });
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    dispatch(getusertoken(userlogin))
+      .then(() => {
+        setuserlogin(init);
+        onClose();
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  };
+
+  const useDemo = () => {
+    setuserlogin(DEMO_CREDENTIALS);
+    setError("");
   };
 
   return (
-    <>
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        size="2xl"
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent minW={{ base: 70, md: 100 }}>
-            <Container centerContent>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered size="md">
+      <ModalOverlay bg="blackAlpha.800" backdropFilter="blur(8px)" />
+      <ModalContent bg="surface.raised" border="1px solid" borderColor="surface.border" borderRadius="2xl" pb={2}>
+        <ModalCloseButton color="content.secondary" />
+        <ModalBody as="form" onSubmit={handelsubmit} px={{ base: 6, md: 10 }} py={9}>
+          <Stack spacing={6} align="center">
+            <AppleGlyph />
+            <Stack spacing={2} textAlign="center">
+              <Heading size="md" fontWeight="700">
+                Sign in with your Apple ID
+              </Heading>
+              <Text fontSize="sm" color="content.secondary">
+                You will be signed in to Apple TV and Apple Music.
+              </Text>
+            </Stack>
+
+            {error && (
+              <Alert status="error" bg="red.900" color="red.100" borderRadius="lg" fontSize="sm" py={2}>
+                <AlertIcon color="red.300" />
+                {error}
+              </Alert>
+            )}
+
+            <Stack spacing={3} width="100%">
               <FormControl isRequired>
-                <Center p={5}>
-                  <img
-                    width={70}
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAACCCAMAAAC93eDPAAAANlBMVEX///+qqqqnp6ekpKT29vbx8fGzs7Ovr6+9vb37+/u3t7ft7e3e3t7S0tLn5+fh4eHIyMjY2Ngsc+t9AAADjklEQVR4nO2b7ZKrIAyGJSBfisX7v9kj7nZrqW2H8C7M7On727FPIQlJiMPw0Ucf/Q9SfX99iV6YjgxTNESiI8Jo5fb7oh+Cit8A3RAu5goghHY9CIL8ARBkexDYA4Gg2IHA04FAyLk9gb0jELK9NR7tYLfG5gRLRkChNYEyIkNovg+RMoLmLqlkvghTa4SHRWgeFFRG0OF8CBlC+7DkfG9bHKb7RSDfnGBY7/yB9Nge4e506EIw6DuCLpnKITi3Pxp2qZsz6qULwRVhS9zXPgBbWNh+XUoRL70ANoUQ5pZu4Nx7k3dqnKZRKbxzqDlE6723cX5xDE3BaiGl3GxDx4C0zyWK9FraDY+kCacZwSWSpFukSkZiMTaiVk15SkB6zQxgDCZ/an/QhPqze9aPb05hQMTbUriLFadPpQdNpbuOPk/Lbv9Q6q8NWaKRzwB2CF+zEOHlu0UKCclKXj2THiN2GuPytJAt7vHh7NNNKJZkMTiPWgM2w7knsMWwh4jbhW+VVjgzmoCoMFJOYABGcICaYiIorvJmMAGjzsQCMNYgq096EDj9/rUF4hR5F+wicPo+FmqMxMgXRiQAr9rHeiSr8wTdB17LA7oIkrMIExSB1QuGmgIvY8tbaHUIrIoKGxU4BAM0OvMacEgCXjPYIQ8InjU+NNarEFhl1PhB+IMIktVbwK4CyymxHsE6qqFxQRgOAraGIFZbNL/4rENguQS0nOTZI6zBtEtyGsHQlIUXGcBVtWcswwSuaTkGCe4tcC6QsXU1yymwLrFtRXkWfQEjMELkCI2PCcEUM/j3by1kKL5IRhvDxiAKGcCRYZcs672C211folgUH/A7kRhMSZzMx7VAkrpgN36FoOzYxB7YNxX4BbbZc1VZPo2+DNhV5pjwcyKpbNTlN0JDabMBfB+QVDqO6uAE5alLPs9aj1BeWIEROBXuCr6t5TSjoU7Bq+yw90O8MQpgK5jX8TkZa2WLeK2OARmf+ANgoNOqZgwRc1lXNxALGWOQdXN4gGEOrjdc5UytOdRPRlfXNYAB9coECvKdQFV0KCzknullSk8nM4YHAtRU7rlb7IO33lrrn47a8ebKTnWSQhH59Web3RL9CQV/wu9EczZSKU3I4o1b8rFLMtgvVtThX6a50zNPG8PBMEhE+BDwYtMIrpTPpm93zdHIXRow83oit6xhXd69Wk3LMnb5ROCjj/6C/gHONioRCuqq6AAAAABJRU5ErkJggg=="
-                    alt="apple"
-                  />
-                </Center>
-                <Center p={2}>
-                  <Heading size="lg">Sign in with your Apple ID</Heading>
-                </Center>
-                <Center p={2}>
-                  <FormLabel htmlFor="first-name">
-                    You will be signed in to Apple TV and Apple Music
-                  </FormLabel>
-                </Center>
-                <Center p={2}>
-                  <FormControl>
-                    <InputGroup>
-                      <Input
-                        isRequired
-                        id="first-name"
-                        placeholder="Apple ID"
-                        borderRightRadius="0"
-                        name="email"
-                        onChange={handleChange}
-                      />
-                      <Button
-                        borderLeftRadius="0"
-                        ref={cancelRef}
-                        onClick={handelsubmit}
-                      >
-                        Login
-                      </Button>
-                      {/* <InputRightAddon children="Login" cursor="pointer" /> */}
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl>
-                    <InputGroup>
-                      <Input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        name="password"
-                        onChange={handleChange}
-                      />
-                      <InputRightElement h={"full"}>
-                        <Button
-                          variant={"ghost"}
-                          onClick={() =>
-                            setShowPassword((showPassword) => !showPassword)
-                          }
-                        >
-                          {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                        </Button>
-                      </InputRightElement>
-                    </InputGroup>
-                  </FormControl>
-                </Center>
+                <Input
+                  type="email"
+                  name="email"
+                  value={userlogin.email}
+                  placeholder="Apple ID"
+                  onChange={handleChange}
+                  size="lg"
+                  fontSize="md"
+                  borderRadius="xl"
+                />
               </FormControl>
-            </Container>
-            <Center p={5}>
-              <AlertDialogFooter>
-                <Text
-                  color=" #0b057ab8"
-                  onClick={handelhideshow}
-                  _hover={{
-                    textDecoration: "underline",
-                    color: " #057a72b8",
-                  }}
-                >
-                  Create New Apple ID
-                </Text>
-                {/* <Button ref={cancelRef} onClick={onClose}>
-                  Cancel
+
+              <FormControl isRequired>
+                <InputGroup size="lg">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={userlogin.password}
+                    placeholder="Password"
+                    onChange={handleChange}
+                    fontSize="md"
+                    borderRadius="xl"
+                  />
+                  <InputRightElement>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      color="content.secondary"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowPassword((current) => !current)}
+                      _hover={{ bg: "whiteAlpha.100" }}
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+
+              <Button
+                type="submit"
+                variant="hero"
+                size="lg"
+                borderRadius="xl"
+                isLoading={loading}
+                loadingText="Signing in"
+              >
+                Sign In
+              </Button>
+            </Stack>
+
+            <Divider borderColor="surface.border" />
+
+            <Stack spacing={3} align="center" width="100%">
+              <Button variant="link" size="sm" color="brand.300" onClick={useDemo}>
+                Use demo account
+              </Button>
+              <Text fontSize="sm" color="content.secondary">
+                Don't have an Apple ID?{" "}
+                <Button variant="link" size="sm" color="brand.300" onClick={toggleAuthMode}>
+                  Create yours now
                 </Button>
-                <Button colorScheme="red" onClick={onClose} ml={3}>
-                  Delete
-                </Button> */}
-              </AlertDialogFooter>
-            </Center>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </>
+              </Text>
+            </Stack>
+          </Stack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
-// https://apple-tv-plus-clone.vercel.app/
-// https://github.com/vadimghedreutan/Apple-tv-plus-clone
+
+export default Signin;

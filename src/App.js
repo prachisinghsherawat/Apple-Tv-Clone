@@ -1,17 +1,17 @@
-
-import './App.css';
-import { AllRoutes } from './componants/AllRoutes/AllRoutes';
-
-import Navbar from './componants/Home/Navbar/Navbar';
-
+import { Box } from "@chakra-ui/react";
+import { AllRoutes } from "./componants/AllRoutes/AllRoutes";
+import Navbar from "./componants/Home/Navbar/Navbar";
+import ScrollToTop from "./componants/AllRoutes/ScrollToTop";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
+    <Box bg="surface.canvas" minH="100vh">
+      <ScrollToTop />
       <Navbar />
       <AllRoutes />
-    </div>
+    </Box>
   );
 }
-//https://github.com/vadimghedreutan/Apple-tv-plus-clone/tree/main/src
+
 export default App;
