@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { BsPerson, BsSearch } from "react-icons/bs";
 import { HiMenu, HiX } from "react-icons/hi";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Signin } from "./Signin";
 import { Signup } from "./Signup";
@@ -31,9 +31,10 @@ import AppleTvLogo from "./AppleTvLogo";
 
 const NAV_LINKS = [
   { label: "Home", to: "/" },
-  { label: "Originals", to: "/" },
-  { label: "Movies", to: "/" },
-  { label: "Kids", to: "/" },
+  { label: "Originals", to: "/originals" },
+  { label: "Movies", to: "/movies" },
+  { label: "Kids", to: "/kids" },
+  { label: "Up Next", to: "/mylist" },
 ];
 
 function Navbar() {
@@ -44,6 +45,7 @@ function Navbar() {
   const cancelRef = React.useRef();
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Read the token from the store so the bar re-renders on sign in/out. The
   // previous version read localStorage during render, so it never updated.
@@ -108,8 +110,8 @@ function Navbar() {
               key={link.label}
               to={link.to}
               fontSize="sm"
-              fontWeight="500"
-              color="content.secondary"
+              fontWeight={location.pathname === link.to ? "600" : "500"}
+              color={location.pathname === link.to ? "content.primary" : "content.secondary"}
               transition="color 0.2s ease"
               _hover={{ color: "content.primary" }}
             >
@@ -126,6 +128,7 @@ function Navbar() {
             icon={<BsSearch size="17px" />}
             variant="ghost"
             color="content.secondary"
+            onClick={() => navigate("/search")}
             _hover={{ bg: "whiteAlpha.200", color: "content.primary" }}
           />
 
@@ -159,7 +162,12 @@ function Navbar() {
                   </Text>
                 </Box>
                 <MenuDivider borderColor="surface.border" />
-                <MenuItem bg="transparent" _hover={{ bg: "whiteAlpha.100" }} fontSize="sm">
+                <MenuItem
+                  onClick={() => navigate("/mylist")}
+                  bg="transparent"
+                  _hover={{ bg: "whiteAlpha.100" }}
+                  fontSize="sm"
+                >
                   Up Next
                 </MenuItem>
                 <MenuItem bg="transparent" _hover={{ bg: "whiteAlpha.100" }} fontSize="sm">

@@ -2,6 +2,9 @@ import { Route, Routes, Link as RouterLink } from "react-router-dom";
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import Home from "../Home/Home";
 import { HomeDetails } from "../HomeDetails/HomeDetails";
+import { Search } from "../Search/Search";
+import { Browse } from "../Browse/Browse";
+import { MyList } from "../MyList/MyList";
 
 const NotFound = () => (
   <Flex minH="100vh" align="center" justify="center" direction="column" gap={5} px={6}>
@@ -20,6 +23,11 @@ const NotFound = () => (
 export const AllRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/originals" element={<Browse category="originals" />} />
+    <Route path="/movies" element={<Browse category="movies" />} />
+    <Route path="/kids" element={<Browse category="kids" />} />
+    <Route path="/mylist" element={<MyList />} />
+    <Route path="/search" element={<Search />} />
     <Route path="/details/:id" element={<HomeDetails />} />
     <Route path="*" element={<NotFound />} />
   </Routes>

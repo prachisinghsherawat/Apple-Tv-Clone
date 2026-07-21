@@ -5,6 +5,8 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import App from "./App";
 import { store } from "./Redux/store";
+import { CatalogProvider } from "./context/CatalogContext";
+import { WatchlistProvider } from "./context/WatchlistContext";
 import theme from "./theme";
 import "./index.css";
 
@@ -15,7 +17,11 @@ root.render(
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <BrowserRouter>
-          <App />
+          <CatalogProvider>
+            <WatchlistProvider>
+              <App />
+            </WatchlistProvider>
+          </CatalogProvider>
         </BrowserRouter>
       </ChakraProvider>
     </Provider>

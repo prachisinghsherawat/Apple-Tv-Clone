@@ -1,54 +1,70 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Box, Button, Flex, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack, Spinner, Stack, Text } from "@chakra-ui/react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import { BsPlayFill, BsPlus } from "react-icons/bs";
-import { cards } from "../Data/Data";
+import { BsPlayFill, BsInfoCircle, BsPlus, BsCheck2, BsStarFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import { getTitleDetails } from "../../../api/tmdb";
+import { useWatchlist } from "../../../context/WatchlistContext";
+import { TrailerModal } from "../../common/TrailerModal";
 
 /**
- * Full-bleed hero. Apple leads with artwork and a very short line of copy, so
- * the slide itself carries almost no chrome — just a scrim to keep text legible
- * over unpredictable images, and progress bars that double as controls.
+ * Full-bleed hero. Apple leads with artwork and a very short line of copy, so the
+ * slide itself carries almost no chrome — just a scrim to keep text legible over
+ * unpredictable images, and progress bars that double as controls. Slides are
+ * fed live from TMDB's trending titles (with a bundled fallback set).
  */
-
-const COPY = [
-  { title: "Ted Lasso", copy: "An American coach. An English club. Zero experience." },
-  { title: "The Sky Is Everywhere", copy: "A story about grief, first love, and finding your sound." },
-  { title: "Severance", copy: "Your work self and your home self will never meet." },
-  { title: "Dear Edward", copy: "One survivor. A hundred lives changed forever." },
-  { title: "The Morning Show", copy: "Behind the biggest story in American news." },
-];
-
-const SLIDES = cards.map((card, index) => ({
-  image: card.image.trim(),
-  eyebrow: "Apple Original",
-  ...COPY[index],
-}));
 
 const AUTOPLAY_MS = 6500;
 
-export default function Banner() {
+export default function Banner({ slides = [] }) {
+  const navigate = useNavigate();
+  const { has, toggle } = useWatchlist();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [trailer, setTrailer] = useState({ open: false, key: null, loading: false });
   const timerRef = useRef(null);
 
-  const go = useCallback((next) => {
-    setActive((next + SLIDES.length) % SLIDES.length);
-  }, []);
+  const go = useCallback(
+    (next) => setActive((current) => (next + slides.length) % slides.length),
+    [slides.length]
+  );
 
   useEffect(() => {
     // Respect users who have asked the OS to reduce motion — no auto-advance.
     const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (paused || reduceMotion) return undefined;
+    if (paused || reduceMotion || slides.length < 2) return undefined;
 
     timerRef.current = setInterval(() => go(active + 1), AUTOPLAY_MS);
     return () => clearInterval(timerRef.current);
-  }, [active, paused, go]);
+  }, [active, paused, go, slides.length]);
+
+  if (!slides.length) return null;
+  const slide = slides[active];
+
+  const openDetails = () => {
+    if (slide.uid && slide.tmdbId) navigate(`/details/${slide.uid}`);
+  };
+
+  const playTrailer = async () => {
+    // Fallback slides carry no TMDB id, so there's no trailer to fetch.
+    if (!slide.tmdbId) {
+      setTrailer({ open: true, key: null, loading: false });
+      return;
+    }
+    setTrailer({ open: true, key: null, loading: true });
+    try {
+      const details = await getTitleDetails(slide.mediaType, slide.tmdbId);
+      setTrailer({ open: true, key: details.trailerKey, loading: false });
+    } catch {
+      setTrailer({ open: true, key: null, loading: false });
+    }
+  };
 
   return (
     <Box
       as="section"
       aria-roledescription="carousel"
-      aria-label="Featured on Apple TV+"
+      aria-label="Featured titles"
       position="relative"
       height={{ base: "62vh", md: "78vh", lg: "88vh" }}
       minHeight="420px"
@@ -58,9 +74,9 @@ export default function Banner() {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      {SLIDES.map((slide, index) => (
+      {slides.map((item, index) => (
         <Box
-          key={slide.image}
+          key={item.uid || item.backdrop}
           position="absolute"
           inset={0}
           aria-hidden={index !== active}
@@ -71,7 +87,7 @@ export default function Banner() {
           <Box
             position="absolute"
             inset={0}
-            bgImage={`url(${slide.image})`}
+            bgImage={`url(${item.backdrop})`}
             bgSize="cover"
             bgPosition="center"
             // Slow drift keeps a static image from feeling like a dead frame.
@@ -84,11 +100,7 @@ export default function Banner() {
             inset={0}
             bgGradient="linear(to-r, blackAlpha.800 0%, blackAlpha.500 45%, transparent 75%)"
           />
-          <Box
-            position="absolute"
-            inset={0}
-            bgGradient="linear(to-t, #000 0%, transparent 45%)"
-          />
+          <Box position="absolute" inset={0} bgGradient="linear(to-t, #000 0%, transparent 45%)" />
         </Box>
       ))}
 
@@ -107,26 +119,61 @@ export default function Banner() {
             textTransform="uppercase"
             color="content.secondary"
           >
-            {SLIDES[active].eyebrow}
+            {slide.eyebrow || "Featured"}
           </Text>
-          <Heading
-            as="h1"
-            fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
-            fontWeight="800"
-            lineHeight="1.02"
-          >
-            {SLIDES[active].title}
+          <Heading as="h1" fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }} fontWeight="800" lineHeight="1.02">
+            {slide.title}
           </Heading>
-          <Text fontSize={{ base: "md", md: "lg" }} color="content.secondary">
-            {SLIDES[active].copy}
-          </Text>
-          <HStack spacing={3} pt={2}>
-            <Button variant="hero" size="lg" leftIcon={<BsPlayFill size="22px" />} px={8}>
+
+          {(slide.year || slide.rating || slide.mediaType) && (
+            <HStack spacing={3} color="content.secondary" fontSize="sm">
+              {slide.rating && slide.rating !== "0.0" && (
+                <HStack spacing={1}>
+                  <BsStarFill size="12px" color="#f5c518" />
+                  <Text>{slide.rating}</Text>
+                </HStack>
+              )}
+              {slide.year && <Text>{slide.year}</Text>}
+              {slide.mediaType && (
+                <Text textTransform="uppercase" letterSpacing="0.08em">
+                  {slide.mediaType === "tv" ? "Series" : "Film"}
+                </Text>
+              )}
+            </HStack>
+          )}
+
+          {slide.overview && (
+            <Text fontSize={{ base: "md", md: "lg" }} color="content.secondary" noOfLines={3}>
+              {slide.overview}
+            </Text>
+          )}
+          <HStack spacing={3} pt={2} flexWrap="wrap">
+            <Button
+              variant="hero"
+              size="lg"
+              leftIcon={trailer.loading ? <Spinner size="sm" /> : <BsPlayFill size="22px" />}
+              px={8}
+              onClick={playTrailer}
+              isDisabled={trailer.loading}
+            >
               Play
             </Button>
-            <Button variant="glass" size="lg" leftIcon={<BsPlus size="22px" />} px={6}>
-              Up Next
-            </Button>
+            {slide.tmdbId && (
+              <>
+                <Button
+                  variant="glass"
+                  size="lg"
+                  px={6}
+                  leftIcon={has(slide.uid) ? <BsCheck2 size="20px" /> : <BsPlus size="22px" />}
+                  onClick={() => toggle(slide)}
+                >
+                  {has(slide.uid) ? "In Up Next" : "Up Next"}
+                </Button>
+                <Button variant="glass" size="lg" leftIcon={<BsInfoCircle size="18px" />} px={6} onClick={openDetails}>
+                  Info
+                </Button>
+              </>
+            )}
           </HStack>
         </Stack>
       </Flex>
@@ -138,13 +185,13 @@ export default function Banner() {
         spacing={2}
         zIndex={2}
       >
-        {SLIDES.map((slide, index) => (
+        {slides.map((item, index) => (
           <Box
-            key={slide.image}
+            key={item.uid || index}
             as="button"
-            aria-label={`Show ${slide.title}`}
+            aria-label={`Show ${item.title}`}
             aria-current={index === active}
-            onClick={() => go(index)}
+            onClick={() => setActive(index)}
             height="3px"
             width={index === active ? "40px" : "20px"}
             borderRadius="full"
@@ -187,6 +234,13 @@ export default function Banner() {
           </Box>
         ))}
       </HStack>
+
+      <TrailerModal
+        isOpen={trailer.open}
+        onClose={() => setTrailer({ open: false, key: null, loading: false })}
+        trailerKey={trailer.key}
+        title={slide.title}
+      />
     </Box>
   );
 }
