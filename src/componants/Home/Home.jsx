@@ -6,6 +6,7 @@ import { Footer } from "./Footer/Footer";
 import { useCatalog } from "../../context/CatalogContext";
 import { useWatchlist } from "../../context/WatchlistContext";
 import { HomeSkeleton } from "../common/Skeletons";
+import { Reveal } from "../common/Reveal";
 
 // The featured strip breaks up the rails roughly a third of the way down.
 const FEATURE_STRIP_AFTER = 3;
@@ -24,17 +25,27 @@ function Home() {
       <Banner slides={heroSlides} />
 
       <Box pb={16}>
-        {list.length > 0 && <MediaRow data={list} title="Up Next" />}
+        {list.length > 0 && (
+          <Reveal>
+            <MediaRow data={list} title="Up Next" />
+          </Reveal>
+        )}
 
         {topTen.length >= 10 && (
-          <MediaRow data={topTen} title="Top 10 This Week" ranked />
+          <Reveal>
+            <MediaRow data={topTen} title="Top 10 This Week" ranked />
+          </Reveal>
         )}
 
         {rows.map((row, index) => (
           <Box key={row.key}>
-            <MediaRow data={row.items} title={row.title} subtitle={row.subtitle} />
+            <Reveal>
+              <MediaRow data={row.items} title={row.title} subtitle={row.subtitle} />
+            </Reveal>
             {index === FEATURE_STRIP_AFTER && featured?.length > 0 && (
-              <MiniBanner data={featured} />
+              <Reveal>
+                <MiniBanner data={featured} />
+              </Reveal>
             )}
           </Box>
         ))}

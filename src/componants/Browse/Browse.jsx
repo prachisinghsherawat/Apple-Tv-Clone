@@ -3,6 +3,7 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import MediaRow from "../Home/MiniCard/MediaRow";
 import { useCatalog } from "../../context/CatalogContext";
 import { HomeSkeleton } from "../common/Skeletons";
+import { Reveal } from "../common/Reveal";
 import { Footer } from "../Home/Footer/Footer";
 
 /**
@@ -51,7 +52,9 @@ export const Browse = ({ category }) => {
 
       <Box pb={16}>
         {shown.map((row) => (
-          <MediaRow key={row.key} data={row.items} title={row.title} />
+          <Reveal key={row.key}>
+            <MediaRow data={row.items} title={row.title} />
+          </Reveal>
         ))}
       </Box>
 

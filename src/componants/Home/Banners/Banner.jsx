@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Button, Flex, Heading, HStack, Spinner, Stack, Text } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { BsPlayFill, BsInfoCircle, BsPlus, BsCheck2, BsStarFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
@@ -112,41 +113,55 @@ export default function Banner({ slides = [] }) {
         pb={{ base: 16, md: 20 }}
       >
         <Stack spacing={{ base: 4, md: 5 }} maxW={{ base: "100%", md: "620px" }}>
-          <Text
-            fontSize={{ base: "xs", md: "sm" }}
-            fontWeight="700"
-            letterSpacing="0.14em"
-            textTransform="uppercase"
-            color="content.secondary"
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.2, 0.8, 0.2, 1] }}
           >
-            {slide.eyebrow || "Featured"}
-          </Text>
-          <Heading as="h1" fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }} fontWeight="800" lineHeight="1.02">
-            {slide.title}
-          </Heading>
-
-          {(slide.year || slide.rating || slide.mediaType) && (
-            <HStack spacing={3} color="content.secondary" fontSize="sm">
-              {slide.rating && slide.rating !== "0.0" && (
-                <HStack spacing={1}>
-                  <BsStarFill size="12px" color="#f5c518" />
-                  <Text>{slide.rating}</Text>
-                </HStack>
-              )}
-              {slide.year && <Text>{slide.year}</Text>}
-              {slide.mediaType && (
-                <Text textTransform="uppercase" letterSpacing="0.08em">
-                  {slide.mediaType === "tv" ? "Series" : "Film"}
-                </Text>
-              )}
-            </HStack>
-          )}
-
-          {slide.overview && (
-            <Text fontSize={{ base: "md", md: "lg" }} color="content.secondary" noOfLines={3}>
-              {slide.overview}
+            <Text
+              fontSize={{ base: "xs", md: "sm" }}
+              fontWeight="700"
+              letterSpacing="0.14em"
+              textTransform="uppercase"
+              color="content.secondary"
+            >
+              {slide.eyebrow || "Featured"}
             </Text>
-          )}
+            <Heading
+              as="h1"
+              fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
+              fontWeight="800"
+              lineHeight="1.02"
+              mt={3}
+              sx={{ textShadow: "0 2px 24px rgba(0,0,0,0.5)" }}
+            >
+              {slide.title}
+            </Heading>
+
+            {(slide.year || slide.rating || slide.mediaType) && (
+              <HStack spacing={3} color="content.secondary" fontSize="sm" mt={3}>
+                {slide.rating && slide.rating !== "0.0" && (
+                  <HStack spacing={1}>
+                    <BsStarFill size="12px" color="#f5c518" />
+                    <Text>{slide.rating}</Text>
+                  </HStack>
+                )}
+                {slide.year && <Text>{slide.year}</Text>}
+                {slide.mediaType && (
+                  <Text textTransform="uppercase" letterSpacing="0.08em">
+                    {slide.mediaType === "tv" ? "Series" : "Film"}
+                  </Text>
+                )}
+              </HStack>
+            )}
+
+            {slide.overview && (
+              <Text fontSize={{ base: "md", md: "lg" }} color="content.secondary" noOfLines={3} mt={4}>
+                {slide.overview}
+              </Text>
+            )}
+          </motion.div>
           <HStack spacing={3} pt={2} flexWrap="wrap">
             <Button
               variant="hero"
